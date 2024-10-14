@@ -14,51 +14,59 @@ function readFile(filePath) {
 
 const getManga =async (req, res) =>{
     const mangaJSON = require("../data/manga.json")
-    const tableContent = require("../data/files.json")
-    res.render( 'index', {manga: mangaJSON, content: tableContent.data})
+    let manga = mangaJSON.data[0];
+    const tableContent = require(manga.episode)
+    res.render( 'index', {manga: manga, content: tableContent.data})
 }
 
 const getEpisode =(req, res) => {
-    const chapterid = req.params.chapterid;
-    const episodeid = req.params.episodeid;
-    const tableContent = require("../data/files.json")
-    let chapter = tableContent.data.find(field => field.chapter == chapterid);
-    let episodeIndex = chapter.data.findIndex(field => field.episode == episodeid);
-    
-    let episode = chapter.data[episodeIndex];
-    console.log(chapter.data[episodeIndex]);
+    try {
+        const mangaid   = req.params.mangaid;
+        const chapterid = req.params.chapterid;
+        const episodeid = req.params.episodeid;
+        const mangaJSON = require("../data/manga.json")
+        let manga = mangaJSON.data.find(field => field.mangaid == mangaid);
+        const tableContent = require(manga.episode)
 
-    let filePath = `./files/${episode.file}.txt`;
-    let content = readFile(filePath);
+        let chapter = tableContent.data.find(field => field.chapter == chapterid);
+        let episodeIndex = chapter.data.findIndex(field => field.episode == episodeid);
 
+        let episode = chapter.data[episodeIndex];
 
-    let prevEpisode = false;
-    let nextEpisode = false;
+        let filePath = `./files/${episode.file}.txt`;
 
-    if(typeof chapter.data[episodeIndex - 1] !== 'undefined') {
-        let prevURL = chapter.data[episodeIndex - 1];
-        prevEpisode = `/chapter/${chapter.chapter}/episode/${prevURL.episode}`;
+        let content = readFile(filePath);
+
+        let prevEpisode = false;
+        let nextEpisode = false;
+
+        if(typeof chapter.data[episodeIndex - 1] !== 'undefined') {
+            let prevURL = chapter.data[episodeIndex - 1];
+            prevEpisode = `/manga/${mangaid}/chapter/${chapter.chapter}/episode/${prevURL.episode}`;
+        }
+
+        if(typeof chapter.data[episodeIndex + 1] !== 'undefined') {
+            let nextURL = chapter.data[episodeIndex + 1];
+            nextEpisode = `/manga/${mangaid}/chapter/${chapter.chapter}/episode/${nextURL.episode}`;
+        }
+
+        let pagination ={
+            prev: prevEpisode,
+            next: nextEpisode,
+            home: '/'
+        }
+   
+        res.render('episode', 
+        {
+            manga:manga,
+            chapterid:chapter.chapter, 
+            info: episode, 
+            episode: content,
+            pagination: pagination
+        })
+    } catch (err) {
+        res.status(404).send('Page not found!')
     }
-
-    if(typeof chapter.data[episodeIndex + 1] !== 'undefined') {
-        let nextURL = chapter.data[episodeIndex + 1];
-
-        nextEpisode = `/chapter/${chapter.chapter}/episode/${nextURL.episode}`;
-    }
-
-    let pagination ={
-        prev: prevEpisode,
-        next: nextEpisode,
-        home: '/'
-    }
-    
-    res.render('episode', 
-    {
-        chapter:chapter.chapter, 
-        info: episode, 
-        episode: content,
-        pagination: pagination
-    })
 }
 
 module.exports = { getManga, getEpisode} ;

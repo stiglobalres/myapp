@@ -73,7 +73,7 @@ function pause() {
   btn_pause.classList.remove('fa');
 
   list.forEach((line, index) => {
-    list[index].classList.remove('bg-gray-300');
+    list[index].classList.remove('highlight');
   });
   synth.cancel(utterThis);
 }
@@ -90,7 +90,7 @@ function stop() {
   btn_pause.classList.remove('fa');
 
   list.forEach((line, index) => {
-    list[index].classList.remove('bg-gray-300');
+    list[index].classList.remove('highlight');
   });
 
   synth.cancel(utterThis);
@@ -128,7 +128,7 @@ function speak() {
 
   setUtter(utterIndex);
   utterThis.onstart = function(event) {
-    list[utterIndex].classList.add('bg-gray-300');
+    list[utterIndex].classList.add('highlight');
     list[utterIndex].scrollIntoView({ behavior: "smooth",block: 'center', inline:'center' });
   }
 
@@ -141,7 +141,7 @@ function speak() {
   utterThis.addEventListener('end', function(e) {
     console.log('speech synthesis onend');
     window.setTimeout(() => {
-      list[utterIndex].classList.remove('bg-gray-300');
+      list[utterIndex].classList.remove('highlight');
       utterIndex += 1;
         if(utterIndex < totalUtter) {
           speak();

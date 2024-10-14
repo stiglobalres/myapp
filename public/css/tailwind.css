@@ -4,8 +4,11 @@
 
 @layer components {
     .main-container {
-       @apply container drop-shadow-lg mt-14 pt-6 h-screen  border-x
+       @apply container drop-shadow-lg mt-14 pt-6 h-screen  border-x bg-white
     }
+    .footer {
+        @apply container h-screen justify-end flex
+     }
     .title {
       @apply font-semibold text-lg text-slate-600
     }
@@ -15,8 +18,11 @@
     .description {
         @apply text-sm text-slate-600 leading-6 min-h-1
     }
+    .description.highlight {
+        @apply bg-gray-300
+    }
     .btn {
-        @apply  border rounded-md p-3;
+        @apply  border rounded-md p-3  text-gray-500 text-sm;
     }
     .btn.disabled {
         @apply   bg-gray-200 text-slate-400;
@@ -34,7 +40,6 @@ body {
 }
 
 .container{
-    background: var(---secondary-color);
     height: max-content;
 }
 

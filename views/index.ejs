@@ -10,17 +10,22 @@
                         <p class="title"><%= manga.title %></p>
                         <p class="subtitle"><%= manga.alt_title %></p>
                         <p class="description"><%= manga.author.join(', ') %></p>
+                        <p class="italic text-sm text-gray-400">source: <a class="text-blue-600" href="<%= manga.source%>" target="_blank"><%= manga.source%></a> </p>
                     </div>
                     <div class="w-full flex justify-center py-6">
                         <img class="w-96" src="<%= manga.img %>" alt="<%= manga.title %>" />
+                       
                     </div>
                     <div class="w-full px-6 py-6">
                         <p class="description"><%= manga.description %></p>
                     </div>
-                    <%- include('partials/tableContent', {content: content}) %>
+                    <%- include('partials/tableContent', {mangaid: manga.mangaid ,content: content}) %>
                 </div>
 
             </div>
+            
+            <%- include('partials/footer') %>
+            
         </div>
     </body>
 </html>

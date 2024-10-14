@@ -1,11 +1,15 @@
 {
-    "mangaid":1,
-    "title":"Keikenchi Chochiku de Nonbiri Shoushin Ryokou ~Yuusha to Koibito ni Tsuihou sareta Senshi no Mujikaku zama~",
-    "alt_title":"A Warrior Exiled by the Hero and His Lover",
-    "author":[
-        "Tokugawa Lemon", 
-        "Kanata Yoshiki"
-    ],
-    "img":"/img/A_Warrior_Exiled_by_the_Hero_and_His_Lover.jpg",
-    "description":"After losing his girlfriend to a brave hero, Toru is expelled from his S-Rank party. With a feeling of sadness and pain in his heart, he defeats a demon he meets outside the city, and his ability [to save experience] is broken! Toru becomes level 300 in the blink of an eye! With this power that far surpasses that of heroes, there is nothing that can stop him. Kaede, a slave he met on his journey, forms a group called the \"Manyu Brigade\", and easily completes dungeons, acquires the legendary sacred weapons, and thanks to his skills, his friends level up easily! He rescued a countess who was attacked by bandits on the road, and befriended a legendary beast. Oru's journey continues at a leisurely pace, as he repeatedly encounters various people along the way, while his former party of heroes are deprived of opportunities to play an active role and fall into decline. This is the beginning of the life of a 300 level warrior!"
+    "data":[ {
+        "mangaid":1,
+        "title":"Keikenchi Chochiku de Nonbiri Shoushin Ryokou ~Yuusha to Koibito ni Tsuihou sareta Senshi no Mujikaku zama~",
+        "alt_title":"A Warrior Exiled by the Hero and His Lover",
+        "author":[
+            "Tokugawa Lemon"
+        ],
+        "img":"/img/A_Warrior_Exiled_by_the_Hero_and_His_Lover.jpg",
+        "source":"https://ncode.syosetu.com/n9483ge",
+        "description":"After losing his girlfriend to a brave hero, Toru is expelled from his S-Rank party. With a feeling of sadness and pain in his heart, he defeats a demon he meets outside the city, and his ability [to save experience] is broken! Toru becomes level 300 in the blink of an eye! With this power that far surpasses that of heroes, there is nothing that can stop him. Kaede, a slave he met on his journey, forms a group called the \"Manyu Brigade\", and easily completes dungeons, acquires the legendary sacred weapons, and thanks to his skills, his friends level up easily! He rescued a countess who was attacked by bandits on the road, and befriended a legendary beast. Oru's journey continues at a leisurely pace, as he repeatedly encounters various people along the way, while his former party of heroes are deprived of opportunities to play an active role and fall into decline. This is the beginning of the life of a 300 level warrior!",
+        "episode":"../data/files.json"
+        }
+    ]
 }
