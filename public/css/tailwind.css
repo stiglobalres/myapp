@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .main-container {
+       @apply container drop-shadow-lg mt-14 pt-6 h-screen  border-x
+    }
+    .title {
+      @apply font-semibold text-lg text-slate-600
+    }
+    .subtitle {
+        @apply text-lg text-slate-500
+    }
+    .description {
+        @apply text-sm text-slate-600 leading-6 min-h-1
+    }
+    .btn {
+        @apply  border rounded-md p-3;
+    }
+    .btn.disabled {
+        @apply   bg-gray-200 text-slate-400;
+    }
+  }
+
+:root{
+    --primary-color: #000;
+    ---secondary-color: #fff;
+    --tertiary-color: #f1f1f1;
+
+}
+body {
+    background: var(--tertiary-color);
+}
+
+.container{
+    background: var(---secondary-color);
+    height: max-content;
+}
+
+.chapter-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-column-gap: 30px;
+    flex-shrink: 1;
+    flex-grow: 1;
+    flex-basis: auto;
+}

@@ -1,0 +1,10 @@
+<div class="chapter-list">
+    <% content.forEach((chapter, index) => { %>
+        <% chapter.data.forEach((episode, index2) => { %>
+        <a class="border-b py-3 px-4" href="/chapter/<%= chapter.chapter %>/episode/<%= episode.episode %>">
+            <span class="text-gray-400 text-sm uppercase">Ep. <%= episode.episode %>:</span>
+            <span class=" text-sm antialiased"><%= episode.title %></span>
+        </a>
+        <% }); %>
+    <% }); %>
+</div>

@@ -1,0 +1,35 @@
+{
+    "data":[
+        {
+            "chapter":"1",
+            "data":[
+                {
+                    "episode":1,
+                    "title":"The Warrior is Betrayed",
+                    "file":"ch1/ep1"
+                },
+                {
+                    "episode":2,
+                    "title":"The Warrior Who Bought a Slave",
+                    "file":"ch1/ep2"
+                },
+                {
+                    "episode":3,
+                    "title":"Warrior Hunts the Red Dragon",
+                    "file":"ch1/ep3"
+                },
+                {
+                    "episode":4,
+                    "title":"The Warrior and the Slave Go Shopping",
+                    "file":"ch1/ep4"
+                },
+                {
+                    "episode":5,
+                    "title":"The Warrior Who Washes the Slaves",
+                    "file":"ch1/ep5"
+                }
+
+            ]
+        }
+    ]
+}
