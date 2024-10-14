@@ -4,6 +4,7 @@ const inputTxt = document.querySelector(".txt");
 const voiceSelect = document.querySelector("select");
 
 const btn_speak  = document.getElementById("speak");
+const btn_pause = document.getElementById("pause");
 const btn_stop = document.getElementById("stop");
 const element = document.getElementById("reader");
 const list = element.querySelectorAll("p");
@@ -13,10 +14,12 @@ const pitchValue = document.querySelector(".pitch-value");
 const rate = document.querySelector("#rate");
 const rateValue = document.querySelector(".rate-value");
 
-
 var utterThis  = new SpeechSynthesisUtterance();
 
 let voices = [];
+let utterIndex = 0;
+let totalUtter = list.length;
+let selectedVoice ='';
 
 function populateVoiceList() {
   voices = synth.getVoices().sort(function (a, b) {
@@ -31,8 +34,7 @@ function populateVoiceList() {
       return +1;
     }
   });
-  const selectedIndex =
-    voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
+  const selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
   voiceSelect.innerHTML = "";
 
   for (let i = 0; i < voices.length; i++) {
@@ -42,15 +44,78 @@ function populateVoiceList() {
         if (voices[i].default) {
             option.textContent += " -- DEFAULT";
           }
-      
           option.setAttribute("data-lang", voices[i].lang);
           option.setAttribute("data-name", voices[i].name);
           voiceSelect.appendChild(option);
     }
 
-
   }
   voiceSelect.selectedIndex = selectedIndex;
+}
+
+function play() {
+  btn_speak.classList.remove('fa');
+  btn_speak.classList.add('hidden');
+
+  btn_pause.classList.remove('hidden');
+  btn_pause.classList.add('fa');
+
+  btn_stop.classList.remove('disabled');
+  btn_stop.removeAttribute('disabled');
+  speak();
+}
+
+function pause() {
+  btn_speak.classList.add('fa');
+  btn_speak.classList.remove('hidden');
+
+  btn_pause.classList.add('hidden');
+  btn_pause.classList.remove('fa');
+
+  list.forEach((line, index) => {
+    list[index].classList.remove('bg-gray-300');
+  });
+  synth.cancel(utterThis);
+}
+
+function stop() {
+  utterIndex =0;
+  btn_stop.setAttribute('disabled','disabled');
+  btn_stop.classList.add('disabled');
+
+  btn_speak.classList.add('fa');
+  btn_speak.classList.remove('hidden');
+
+  btn_pause.classList.add('hidden');
+  btn_pause.classList.remove('fa');
+
+  list.forEach((line, index) => {
+    list[index].classList.remove('bg-gray-300');
+  });
+
+  synth.cancel(utterThis);
+}
+
+function setUtter(x) {
+  let text = list[x].textContent;
+  if(x >= totalUtter) {
+    return;
+  }
+  if(text =='') {
+    utterIndex += 1;
+    setUtter(utterIndex);
+    return;
+  }
+  if(list[x].textContent)
+  utterThis = new SpeechSynthesisUtterance(list[x].textContent);
+
+  for (let i = 0; i < voices.length; i++) {
+    if (voices[i].name === selectedVoice) {
+      utterThis.voice = voices[i];
+      break;
+    }
+  }
+  synth.speak(utterThis);
 }
 
 populateVoiceList();
@@ -60,75 +125,52 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 }
 
 function speak() {
-  if(synth.paused) {
-    console.log("speechSynthesis.paused");
-    document.getElementById('speak').classList.remove('fa-play');
-    document.getElementById('speak').classList.add('fa-pause');
-    synth.resume();
-    return
-  }
-  else if (synth.speaking) {
-    console.log("speechSynthesis.speaking");
-    document.getElementById('speak').classList.add('fa-play');
-    document.getElementById('speak').classList.remove('fa-pause');
-    synth.pause();
-    return;
-  }
-  else {
-    document.getElementById('speak').classList.remove('fa-play');
-    document.getElementById('speak').classList.add('fa-pause');
+
+  setUtter(utterIndex);
+  utterThis.onstart = function(event) {
+    list[utterIndex].classList.add('bg-gray-300');
+    list[utterIndex].scrollIntoView({ behavior: "smooth",block: 'center', inline:'center' });
   }
 
+  utterThis.onerror = (event) => {
+    console.log(
+      `An error has occurred with the speech synthesis: ${event.error}`,
+    );
+  };
 
-  let text ="";
-  list.forEach((val)=>{
-      text +="\n"+ val.innerText 
-  })
-
-   // const utterThis = new SpeechSynthesisUtterance(text);
-   utterThis.text = text;
-    utterThis.onend = function (event) {
-      console.log("SpeechSynthesisUtterance.onend");
-    };
-
-    utterThis.onerror = function (event) {
-      console.error("SpeechSynthesisUtterance.onerror");
-    };
-
-    const selectedOption =
-      voiceSelect.selectedOptions[0].getAttribute("data-name");
-
-    for (let i = 0; i < voices.length; i++) {
-      if (voices[i].name === selectedOption) {
-        utterThis.voice = voices[i];
-        break;
-      }
-    }
-    synth.speak(utterThis);
+  utterThis.addEventListener('end', function(e) {
+    console.log('speech synthesis onend');
+    window.setTimeout(() => {
+      list[utterIndex].classList.remove('bg-gray-300');
+      utterIndex += 1;
+        if(utterIndex < totalUtter) {
+          speak();
+        }
+    }, 500);
+  });
 
 }
 
 
 btn_speak.addEventListener("click", function (event) {
-    speak();
-
+  play();
 });
 
+btn_pause.addEventListener("click", function (event) {
+  pause();
+});
 
 btn_stop.addEventListener("click", (event)=>{
-    synth.cancel(utterThis);
+  stop();
 })
 
 voiceSelect.onchange = function () {
-  speak();
+  selectedVoice = voiceSelect.selectedOptions[0].getAttribute("data-name");
+  play();
   this.blur();
 };
 
 voiceSelect.onclick = function () {
-    synth.cancel(utterThis);
+  pause();
 };
-
-synth.addEventListener('speak', function(ev) {
-  console.log('speaking')
-});
 
