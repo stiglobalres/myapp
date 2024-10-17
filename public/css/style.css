@@ -654,11 +654,17 @@ video {
 .hidden {
   display: none;
 }
+.h-screen {
+  height: 100vh;
+}
 .w-96 {
   width: 24rem;
 }
 .w-full {
   width: 100%;
+}
+.items-center {
+  align-items: center;
 }
 .justify-center {
   justify-content: center;
@@ -726,6 +732,9 @@ video {
 }
 .text-start {
   text-align: start;
+}
+.align-middle {
+  vertical-align: middle;
 }
 .text-lg {
   font-size: 1.125rem;
